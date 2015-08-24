@@ -1,0 +1,2 @@
+defmodule Docopt do
+end
