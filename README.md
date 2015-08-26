@@ -3,6 +3,8 @@
 
 An Elixir port of [`docopt`](http://docopt.org).
 
+Note: Currently in development. Pre-alpha, doesn't actually work yet.
+
 ```elixir
 defmodule NavalFate.CLI do
   use Docopt
