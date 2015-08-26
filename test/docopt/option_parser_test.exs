@@ -43,15 +43,15 @@ defmodule Docopt.OptionParserTest do
     assert parse(argv, mine) == {:ok, parsed}
   end
 
-  # test "repeated arguments" do
-  #   value = %Required{name: :value}
-  #   sep   = %Command{name: :sep, value: ",", children: [value]}
-  #   rep   = %Repeated{children: [sep]}
-  #   tree  = %Required{name: :value, children: [rep]}
+  test "repeated arguments" do
+    value = %Required{name: :value}
+    sep   = %Command{name: :sep, value: ",", children: [value]}
+    rep   = %Repeated{children: [sep]}
+    tree  = %Required{name: :value, children: [rep]}
 
-  #   argv = ["10", ",", "20", ",", "30"]
-  #   parsed = [value: "10", sep: true, value: "20", sep: true, value: "30"]
+    argv = ["10", ",", "20", ",", "30"]
+    parsed = [value: "10", sep: true, value: "20", sep: true, value: "30"]
 
-  #   assert parse(argv, tree) == {:ok, parsed}
-  # end
+    assert parse(argv, tree) == {:ok, parsed}
+  end
 end

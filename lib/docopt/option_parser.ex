@@ -6,6 +6,7 @@ defmodule Docopt.OptionParser do
 
   require Logger
 
+  alias Docopt.AnswerSelector
   alias Docopt.Node.Required
   alias Docopt.Node.Command
   alias Docopt.Node.Repeated
@@ -53,25 +54,21 @@ defmodule Docopt.OptionParser do
     select_child(rest, node.children, arg_list)
   end
 
-  # defp do_parse(argv, n = %Repeated{}, arg_list) do
-  #   Logger.info "Parsing repeating"
+  defp do_parse(argv, n = %Repeated{}, arg_list) do
+    Logger.info "Parsing repeating"
 
-  #   n.children
-  #   |> Enum.map(&(do_parse(argv, &1, arg_list)))
-  #   |> Enum.map(fn
-  #     {:error, "Parse tree ran out", args} ->
-  #         Logger.debug "Repeating"
-  #         do_parse(args[:argv], n, args[:arg_list])
-  #     other ->
-  #       Logger.debug inspect(other)
-  #       other
-  #   end)
-  #   |> Enum.filter(fn
-  #     {:ok, _} -> true
-  #     _        -> false
-  #   end)
-  #   |> hd
-  # end
+    n.children
+    |> Enum.map(&(do_parse(argv, &1, arg_list)))
+    |> Enum.map(fn
+      {:error, "Parse tree ran out", args} ->
+          Logger.debug "Repeating"
+          do_parse(args[:argv], n, args[:arg_list])
+      other ->
+        Logger.debug inspect(other)
+        other
+    end)
+    |> AnswerSelector.select
+  end
 
   defp do_parse(argv, tree, arg_list) do
     err = {:error,
@@ -93,10 +90,6 @@ defmodule Docopt.OptionParser do
     Logger.info "Checking kids"
     nodes
     |> Enum.map(&(do_parse(args, &1, arg_list)))
-    |> Enum.filter(fn
-      {:ok, _} -> true
-      _        -> false
-    end)
-    |> hd
+    |> AnswerSelector.select
   end
 end
