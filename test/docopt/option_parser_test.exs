@@ -14,7 +14,7 @@ defmodule Docopt.OptionParserTest do
 
     argv = ["foo", "bar", "foo.ex"]
 
-    assert parse(argv, opt_tree) == {:ok, [foo: "foo", bar: "bar", file: "foo.ex"]}
+    assert parse(opt_tree, argv) == {:ok, [foo: "foo", bar: "bar", file: "foo.ex"]}
   end
 
   test "positional commands and args" do
@@ -27,7 +27,7 @@ defmodule Docopt.OptionParserTest do
     argv = ["ship", "Beagle", "move", "10", "13"]
     parsed = [ship: true, name: "Beagle", move: true, x: "10", y: "13"]
 
-    assert parse(argv, ship) == {:ok, parsed}
+    assert parse(ship, argv) == {:ok, parsed}
   end
 
   test "positional exclusive arguments" do
@@ -40,7 +40,7 @@ defmodule Docopt.OptionParserTest do
     argv = ["mine", "remove", "10", "45"]
     parsed = [mine: true, remove: true, x: "10", y: "45"]
 
-    assert parse(argv, mine) == {:ok, parsed}
+    assert parse(mine, argv) == {:ok, parsed}
   end
 
   test "repeated arguments" do
@@ -52,6 +52,6 @@ defmodule Docopt.OptionParserTest do
     argv = ["10", ",", "20", ",", "30"]
     parsed = [value: "10", sep: true, value: "20", sep: true, value: "30"]
 
-    assert parse(argv, tree) == {:ok, parsed}
+    assert parse(tree, argv) == {:ok, parsed}
   end
 end
